@@ -9,6 +9,28 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 
 const gravity = 0.2;
 
+
+class Map {
+    randomMap() {
+
+    }
+}
+
+
+class PlayerStatus {
+    allStatus() {
+        return {
+            force: 0,
+            agility: 0,
+            int: 0,
+            sor: 0,
+        }
+    }
+}
+
+
+
+
 class Sprite {
     constructor({position, velocity}) {
         this.position = position
@@ -112,7 +134,7 @@ window.addEventListener('keydown', (event) => {
                 player.move('left', 100)
                 quantifyKeys.a = 0
             } else {
-                player.controls('left', 20)
+                player.move('left', 50)
             }
         break;
     }
