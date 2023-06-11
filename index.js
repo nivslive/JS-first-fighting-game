@@ -53,18 +53,14 @@ class Sprite {
         }
     }
     controls(control, value = 0) {
-        if(control === 'jump') {
-            this.position.x += value;
-        }
-
-        if(control === 'move') {
-            this.position.x += value;
+        if(control === 'stop') {
+            this.position.x += 0;
         }
     }
 
     update() {
         this.draw()
-        this.position.y += gravity
+        this.position.x += this.velocity.x
         this.position.y += this.velocity.y
         if(this.position.y + this.height + this.velocity.y >= canvas.height) {
             this.velocity.y = 0
@@ -74,12 +70,12 @@ class Sprite {
 
 const player = new Sprite({
     position: {
-        x: 90,
+        x: 0,
         y: 0,
     },
     velocity: {
         x: 0,
-        y: 10,
+        y: 0,
     }
 })
 player.draw()
@@ -108,33 +104,35 @@ function animate() {
 }
 
 animate()
-let quantifyKeys = {
-    d: 0,
-    a: 0,
+
+const keys = {
+    d: {quantify: 0},
+    a: {quantify: 0},
 };
+
 window.addEventListener('keydown', (event) => {
 
     switch(event.key) {
         case 'd':
-            quantifyKeys.d += 1;
-            quantifyKeys.a = 0;
-            console.log(quantifyKeys)
-            if(quantifyKeys.d === 2) {
-                player.move('right', 100)
-                quantifyKeys.d = 0
+            keys.d.quantify += 1;
+            keys.a.quantify = 0;
+            console.log(keys.a)
+            if(keys.d.quantify === 2) {
+                player.move('right', 2)
+                keys.d.quantify = 0
                 console.log(quantifyKeys)
             } else {
-                player.controls('right', 20)
+                player.controls('right', 1)
             }
         break;
         case 'a':
-            quantifyKeys.d += 0;
-            quantifyKeys.a += 1;
-            if(quantifyKeys.a === 2) {
-                player.move('left', 100)
-                quantifyKeys.a = 0
+            keys.d.quantify += 0;
+            keys.a.quantify += 1;
+            if(keys.a.quantify === 2) {
+                player.move('left', 2)
+                keys.a.quantify = 0
             } else {
-                player.move('left', 50)
+                player.move('left', 1)
             }
         break;
     }
@@ -143,7 +141,10 @@ window.addEventListener('keydown', (event) => {
 window.addEventListener('keyup', (event) => {
     switch(event.key) {
         case 'd':
-            player.controls('move', 20)
+            player.controls('stop')
+        break;
+        case 'a':
+            player.controls('stop')
         break;
     }
 });
